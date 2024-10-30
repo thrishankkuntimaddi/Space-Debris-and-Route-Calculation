@@ -11,6 +11,8 @@ purpose = "Computes and returns the orbital position and velocity for a given ti
 from skyfield.api import EarthSatellite, load
 
 class OrbitalDynamics:
+    def __init__(self):
+        self.positions = []  # Stores calculated positions for TLE objects
     def calculate_positions(self, tle_data, timestamp):
         """
         Calculate the positions and velocities of TLE objects at a given timestamp.
@@ -25,3 +27,4 @@ class OrbitalDynamics:
             positions.append((position.position.km, position.velocity.km_per_s))
 
         return positions
+

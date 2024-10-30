@@ -1,23 +1,24 @@
 purpose = "Controls the entire mission flow, calling each module sequentially and managing input/output."
 
-steps = '''
+steps = ''' 
 
 1. Declare Constants
 2. Initialize Input Parameters
    - Gather `timestamp` (launch date & time).
    - Determine `orbit selection` (distance from Earth’s atmosphere).
 3. Invoke Rocket_Description Module
-4. Invoke Orbital_Mechanism Module
+4. Invoke Orbital_Mechanism Module 
    - Pass `timestamp` to calculate current orbital parameters.
 5. Invoke Calculate_Route Module
    - Provide data from `orbital mechanism`, `rocket description`, `timestamp`, and `orbit distance`.
 6. Invoke Collision_Detection Module
    - Send `orbital mechanism` and calculated route path.
-   - If collision is detected, reinvoke Calculate_Route for optimization.
+   - If collision is detected, re invoke Calculate_Route for optimization.
 7. Generate Report
    - If no collisions are detected, invoke Generate_Report to output results.
 
 '''
+
 
 from rocket_parameters import RocketParameters
 from orbital_dynamics import OrbitalDynamics
@@ -35,17 +36,17 @@ def main():
     # Step 2: Retrieve TLE Data for Orbital Dynamics
     tle_data = [  # TLE data for 6 objects
         ('1 25544U 98067A   23056.52976417  .00000246  00000-0  13600-4 0  9994',
-         '2 25544  51.6445 244.7525 0006907  83.5106 276.5852 15.48916369257430'),
+         '2 25544  51.6445 44.7525 0006907  83.5106 276.5852 15.48916369257430'),
         ('1 27691U 03004A   23056.53875874  .00000027  00000-0  37995-4 0  9992',
-         '2 27691  98.2076 175.2345 0014025  96.2123 264.0261 14.57105424564794'),
+         '2 27691  98.2076 75.2345 0014025  96.2123 264.0261 14.57105424564794'),
         ('1 38734U 12048A   23056.52786865  .00001269  00000-0  71723-4 0  9993',
-         '2 38734  55.0012 321.5678 0012345  34.5678 325.6789 15.03456789123456'),
+         '2 38734  55.0012 221.5678 0012345  34.5678 325.6789 15.03456789123456'),
         ('1 41025U 15075A   23056.51234567  .00000567  00000-0  45678-4 0  9997',
-         '2 41025  97.1234 250.6789 0003456 120.4567 239.8765 14.67890123456789'),
+         '2 41025  97.1234 150.6789 0003456 120.4567 239.8765 14.67890123456789'),
         ('1 43210U 18090A   23056.51234567  .00000891  00000-0  56789-4 0  9990',
-         '2 43210  98.7654 310.1234 0016789  78.9012 281.2345 14.45678901234567'),
-        ('1 50000U 21000A   23056.52976417  .00000246  00000-0  15000-4 0  9991', # This TLE is intended to cause a collision
-         '2 50000  51.6445 244.7525 0007000  80.0000 276.5852 15.48916369257430')
+         '2 43210  98.7654 210.1234 0016789  78.9012 281.2345 14.45678901234567'),
+        ('1 50000U 21000A   23056.52976417  .00000246  00000-0  15000-4 0  9991',  # This TLE is intended to cause a collision
+         '2 50000  51.6445 100.7525 0007000  80.0000 276.5852 15.48916369257430')
     ]
 
     # Step 3: Calculate Initial Positions (Orbital Dynamics)
@@ -66,7 +67,8 @@ def main():
 
     # Step 7: Visualize Trajectory
     trajectory_visualization = TrajectoryVisualization()
-    trajectory_visualization.visualize_trajectory(trajectory, adjusted_trajectory, optimized_trajectory, positions)
+    trajectory_visualization.visualize_collision_trajectory(trajectory, adjusted_trajectory, optimized_trajectory, positions)
+    trajectory_visualization.visualize_no_collision_trajectory(trajectory, optimized_trajectory)
 
     # Step 8: Generate Mission Report
     mission_report = MissionReport()
