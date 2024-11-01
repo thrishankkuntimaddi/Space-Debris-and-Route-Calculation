@@ -1,43 +1,92 @@
-"Checks the planned trajectory for potential collisions and suggests alternate paths if necessary."
-
-'''
-1. Input Data
-   - Receive `orbital mechanism` and calculated route path.
-2. Collision Check
-   - Detect potential collision events based on current route.
-3. Output Collision Status
-   - If collision detected, provide collision time and space object details; else, proceed to final report.
-'''
-
 import numpy as np
+from scipy.spatial.distance import euclidean
+from skyfield.api import load, EarthSatellite
+import pandas as pd
+import json
 
-class CollisionAvoidance:
-    def __init__(self):
-        self.collision_detected = False  # Flag to indicate collision detection
-        self.colliding_object = None  # Index or details of the colliding object
-        self.adjusted_trajectory = None  # Adjusted trajectory to avoid collision
-        self.adjusted_velocity = None  # Adjusted velocity to avoid collision
-    def detect_and_adjust(self, trajectory, tle_positions, safe_distance=10):
-        """
-        Detect collisions and adjust trajectory if needed.
-        """
-        self.adjusted_trajectory = trajectory
-        current_position = trajectory['initial_position']
-        current_velocity = [0, 0, 0]  # Example initial velocity
 
-        collision_detected = False
-        colliding_object = None
-        for tle_index, (tle_position, tle_velocity) in enumerate(tle_positions):
-            distance = np.linalg.norm(np.array(current_position) - np.array(tle_position))
-            if distance < safe_distance:
-                # Adjust velocity to avoid collision
-                collision_detected = True
-                colliding_object = tle_index
-                adjusted_velocity = np.array(current_velocity) + np.array([0.5, -0.2, 0.3])
-                self.adjusted_trajectory['adjusted_velocity'] = adjusted_velocity.tolist()
-                self.collision_detected = collision_detected
-                self.colliding_object = colliding_object
-                break
+class CollisionDetection:
+    def __init__(self, max_altitude, trajectory_equations, tle_file_path="/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/datasets/tle_data_dummy.json", threshold_distance=150.0):
+        self.threshold_distance = threshold_distance
+        self.max_altitude = max_altitude
+        self.trajectory_equations = trajectory_equations
+        self.ts = load.timescale()
 
-        return {'adjusted_trajectory': self.adjusted_trajectory, 'collision_detected': self.collision_detected, 'colliding_object': self.colliding_object}
+        # Load TLE dataset from JSON file
+        with open(tle_file_path, 'r') as file:
+            tle_data = json.load(file)['tle_data']
+        self.tle_dataframe = pd.DataFrame(tle_data)
 
+    def theta_transition(self, t):
+        # Use the provided theta transition equation
+        return eval(self.trajectory_equations['theta'])(t)
+
+    def trajectory(self, t):
+        # Use the provided trajectory equations
+        theta_value = self.theta_transition(t)
+        x = eval(self.trajectory_equations['x'])(t, theta_value)
+        y = eval(self.trajectory_equations['y'])(t, theta_value)
+        z = eval(self.trajectory_equations['z'])(t, theta_value)
+        return np.array([x, y, z])
+
+    def check_collision(self):
+        collisions = []
+
+        for index, row in self.tle_dataframe.iterrows():
+            line1 = row['line_1']
+            line2 = row['line_2']
+            satellite = EarthSatellite(line1, line2, f'Satellite_{index}', self.ts)
+
+            # Define the time for which to calculate position
+            time = self.ts.now()  # You can specify a future time here as well
+
+            # Calculate the position of the satellite
+            geometry = satellite.at(time)
+            satellite_position = geometry.position.km  # Position in kilometers
+
+            # Iterate over different times to check for collision
+            for t in np.linspace(0, 20, num=200):  # Time range and steps
+                rocket_position = self.trajectory(t)
+                distance = euclidean(rocket_position, satellite_position)
+                altitude = np.linalg.norm(rocket_position)  # Altitude of the rocket
+
+                # Debugging log :
+                # print(f"Time: {t:.2f}s, Distance: {distance:.2f} km, Altitude: {altitude:.2f} km")
+
+                # Check if altitude exceeds maximum altitude
+                if altitude > self.max_altitude:
+                    break
+
+                # Check for collision
+                if distance < self.threshold_distance:
+                    collisions.append((t, satellite.name, distance))
+                    break  # Exit loop if collision is detected
+
+        return collisions
+
+
+# # Example usage of the module
+# if __name__ == "__main__":
+#     # Input parameters
+#     tle_file_path = '/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/datasets/tle_data_dummy.json'
+#     max_altitude = 20000
+#     trajectory_equations = {
+#         'x': "lambda t, theta: 45.964 + 2800.0 * t * np.cos(theta) * np.cos(0.9005898940290741)",
+#         'y': "lambda t, theta: 63.305 + 2800.0 * t * np.cos(theta) * np.sin(0.9005898940290741)",
+#         'z': "lambda t, theta: 0.0 + 2800.0 * t * np.sin(theta)",
+#         'theta': "lambda t: 0.8726646259971648 * (1 - np.exp(-0.1 * t))"
+#     }
+#
+#     # Create an instance of the CollisionDetection class
+#     collision_detector = CollisionDetection(tle_file_path, max_altitude, trajectory_equations)
+#
+#     # Perform Collision Detection
+#     collisions = collision_detector.check_collision()
+#
+#     # Display the results
+#     if collisions:
+#         for collision in collisions:
+#             t, satellite_name, distance = collision
+#             print(f"Collision detected at t={t:.2f}s with {satellite_name} at a distance of {distance:.2f} km.")
+#     else:
+#         print("No collisions detected.")
