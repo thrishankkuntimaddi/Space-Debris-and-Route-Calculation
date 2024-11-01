@@ -1,0 +1,24 @@
+Rocket_Type,Launch_Site,"Launch_Site_Coordinates_(x0,y0,z0)",Initial_Velocity_v0_m_per_s,Launch_Angle_theta_deg,Inclination_Angle_phi_deg
+Falcon 1,"Omelek Island, Kwajalein Atoll, Marshall Islands","(9.0476, 167.7431, 0)",2500,45,28.0
+Electron,"Rocket Lab Launch Complex 1, Māhia Peninsula, New Zealand","(-39.261, 177.864, 0)",2000,40,39.0
+Falcon 9,"Cape Canaveral, Florida, USA","(28.3922, -80.6077, 0)",3000,30,51.6
+Delta IV,"Cape Canaveral, Florida, USA","(28.3922, -80.6077, 0)",2800,50,56.0
+PSLV,"Satish Dhawan Space Centre, Sriharikota, India","(13.719, 80.2304, 0)",2700,35,98.0
+GSLV,"Satish Dhawan Space Centre, Sriharikota, India","(13.719, 80.2304, 0)",3200,25,97.5
+Ariane 5,"Guiana Space Centre, French Guiana","(5.236, -52.768, 0)",2900,20,7.0
+Falcon Heavy,"Kennedy Space Center, Florida, USA","(28.5721, -80.648, 0)",3500,30,27.0
+Saturn V,"Kennedy Space Center, Florida, USA","(28.5721, -80.648, 0)",3000,45,32.5
+Soyuz,"Baikonur Cosmodrome, Kazakhstan","(45.964, 63.305, 0)",2800,50,51.6
+Proton-M,"Baikonur Cosmodrome, Kazakhstan","(45.964, 63.305, 0)",3100,35,64.9
+Long March 3B,"Xichang Satellite Launch Center, Sichuan, China","(28.246, 102.027, 0)",3000,40,28.5
+Long March 5,"Wenchang Space Launch Center, Hainan, China","(19.614, 110.951, 0)",3200,25,19.5
+H-IIA,"Tanegashima Space Center, Kagoshima Prefecture, Japan","(30.401, 130.976, 0)",3100,30,30.0
+H-IIB,"Tanegashima Space Center, Kagoshima Prefecture, Japan","(30.401, 130.976, 0)",3150,28,30.0
+Vega,"Guiana Space Centre, French Guiana","(5.236, -52.768, 0)",2700,35,5.5
+Nuri,"Naro Space Center, Goheung, South Korea","(34.431, 127.535, 0)",2600,40,80.0
+GSLV Mk III,"Satish Dhawan Space Centre, Sriharikota, India","(13.719, 80.2304, 0)",3250,25,97.5
+Atlas V,"Cape Canaveral, Florida, USA","(28.3922, -80.6077, 0)",3300,27,55.0
+Delta IV Heavy,"Cape Canaveral, Florida, USA","(28.3922, -80.6077, 0)",3400,30,60.0
+Angara A5,"Plesetsk Cosmodrome, Russia","(62.927, 40.576, 0)",3200,29,63.4
+Ariane 6,"Guiana Space Centre, French Guiana","(5.236, -52.768, 0)",3100,32,7.0
+Starship,"SpaceX Starbase, Boca Chica, Texas, USA","(25.997, -97.156, 0)",3800,20,53.0
