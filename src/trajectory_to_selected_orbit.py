@@ -16,7 +16,7 @@ class TrajectoryCalculator:
         """
         Calculates the trajectory equation for a rocket to reach a specified circular orbit.
 
-        Parameters:
+        Parameters: Example
         - rocket_type (str): The type of the rocket (e.g., 'Soyuz')
         - launch_site (str): Name of the launch site (e.g., 'Baikonur Cosmodrome')
         - target_orbit (float): The radius of the target orbit in kilometers from Earth's center
@@ -45,7 +45,7 @@ class TrajectoryCalculator:
             'y': f"lambda t, theta: {y0} + {v0} * t * np.cos(theta) * np.sin({phi})",
             'z': f"lambda t, theta: {z0} + {v0} * t * np.sin(theta)",
             'theta': f"lambda t: {theta} * (1 - np.exp(-{k} * t))"
-        }
+        } 
 
         return trajectory_equations
 

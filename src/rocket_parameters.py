@@ -67,7 +67,6 @@ class RocketParameters:
 
         return summary
 
-
 # # Example usage
 # if __name__ == "__main__":
 #     rocket_parameters = RocketParameters()

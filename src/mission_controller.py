@@ -2,6 +2,9 @@ from orbit_selection import OrbitSelector
 from rocket_parameters import RocketParameters
 from trajectory_to_selected_orbit import TrajectoryCalculator
 from collision_avoidance import CollisionDetection
+from orbital_dynamics import OrbitalDynamics
+from mission_report import MissionReport
+from trajectory_visualization import TrajectoryVisualization
 
 def main():
     # Step 1: Input timestamp for the mission
@@ -28,11 +31,11 @@ def main():
     # Step 4: Trajectory Calculation for Rocket
     trajectory_calculator = TrajectoryCalculator()
     trajectory_equation = trajectory_calculator.calculate_trajectory(
-            rocket_type= summary['Rocket_Type'],
-            launch_site= summary['Launch_Site'],
-            target_orbit= altitude[0]
-        )
-    print(trajectory_equation) # Important
+        rocket_type=summary['Rocket_Type'],
+        launch_site=summary['Launch_Site'],
+        target_orbit=altitude[0]
+    )
+    print(trajectory_equation)  # Important
 
     # Step 5: Orbital Dynamics
 
@@ -52,6 +55,7 @@ def main():
 
     # Step 7: Mission_report.py
 
+    # Step $$$: Development of Website
 
 
 if __name__ == "__main__":

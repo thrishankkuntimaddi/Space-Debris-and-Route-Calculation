@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7a1d443-7c9f-4e0f-a01b-8f9ab70998bc" name="Changes" comment="MeaningFull" />
+    <list default="true" id="f7a1d443-7c9f-4e0f-a01b-8f9ab70998bc" name="Changes" comment="MeaningFull">
+      <change afterPath="$PROJECT_DIR$/src/preprocessing_TLE_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/collision_avoidance.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/collision_avoidance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mission_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mission_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mission_report.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mission_report.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/orbital_dynamics.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/orbital_dynamics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rocket_parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rocket_parameters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/trajectory_to_selected_orbit.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/trajectory_to_selected_orbit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/trajectory_visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/trajectory_visualization.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,43 +56,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Python.1_timestamp_input_test.executor": "Run",
-    "Python.Preprocessing.executor": "Run",
-    "Python.TLE_operations.executor": "Run",
-    "Python.TLE_pos_vel_on_dataset.executor": "Run",
-    "Python.collision_avoidance.executor": "Run",
-    "Python.collision_check.executor": "Run",
-    "Python.collision_test_on_TLE.executor": "Run",
-    "Python.extract_co_ordinates_for_launch_site.executor": "Run",
-    "Python.extract_co_ordinates_test.executor": "Run",
-    "Python.main (1).executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.mission_controller.executor": "Run",
-    "Python.mission_report.executor": "Run",
-    "Python.orbit_selection.executor": "Run",
-    "Python.orbital_dynamics.executor": "Run",
-    "Python.rocket_description.executor": "Run",
-    "Python.rocket_parameters.executor": "Run",
-    "Python.rocket_params_check.executor": "Run",
-    "Python.test-for-collisions.executor": "Run",
-    "Python.trajectory_optimizer.executor": "Run",
-    "Python.trajectory_planner_test.executor": "Run",
-    "Python.trajectory_to_selected_orbit.executor": "Run",
-    "Python.trajectory_visualization.executor": "Run",
-    "Python.visualization.executor": "Run",
-    "Python.visualization_3d_trajectory_rocket.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python.1_timestamp_input_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Preprocessing.executor&quot;: &quot;Run&quot;,
+    &quot;Python.TLE_operations.executor&quot;: &quot;Run&quot;,
+    &quot;Python.TLE_pos_vel_on_dataset.executor&quot;: &quot;Run&quot;,
+    &quot;Python.collision_avoidance.executor&quot;: &quot;Run&quot;,
+    &quot;Python.collision_check.executor&quot;: &quot;Run&quot;,
+    &quot;Python.collision_test_on_TLE.executor&quot;: &quot;Run&quot;,
+    &quot;Python.extract_co_ordinates_for_launch_site.executor&quot;: &quot;Run&quot;,
+    &quot;Python.extract_co_ordinates_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mission_controller.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mission_report.executor&quot;: &quot;Run&quot;,
+    &quot;Python.orbit_selection.executor&quot;: &quot;Run&quot;,
+    &quot;Python.orbital_dynamics.executor&quot;: &quot;Run&quot;,
+    &quot;Python.rocket_description.executor&quot;: &quot;Run&quot;,
+    &quot;Python.rocket_parameters.executor&quot;: &quot;Run&quot;,
+    &quot;Python.rocket_params_check.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test-for-collisions.executor&quot;: &quot;Run&quot;,
+    &quot;Python.trajectory_optimizer.executor&quot;: &quot;Run&quot;,
+    &quot;Python.trajectory_planner_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.trajectory_to_selected_orbit.executor&quot;: &quot;Run&quot;,
+    &quot;Python.trajectory_visualization.executor&quot;: &quot;Run&quot;,
+    &quot;Python.visualization.executor&quot;: &quot;Run&quot;,
+    &quot;Python.visualization_3d_trajectory_rocket.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/thrishank/Documents/Projects/Project_Space_Debris_&amp;_Route_Calculation/Space-Debris-and-Route-Calculation&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/test" />
     </key>
@@ -352,7 +365,23 @@
       <option name="project" value="LOCAL" />
       <updated>1730481911158</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="MeaningFull">
+      <option name="closed" value="true" />
+      <created>1730482198501</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1730482198501</updated>
+    </task>
+    <task id="LOCAL-00018" summary="MeaningFull">
+      <option name="closed" value="true" />
+      <created>1730482203033</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1730482203033</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
