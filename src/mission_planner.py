@@ -62,7 +62,6 @@ def main():
 
     # Step 5: orbital_dynamics.py
 
-
     # Step 6: collision_detection.py
 
     # Step 6.1: impact_analysis.py

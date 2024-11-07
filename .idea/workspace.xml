@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7a1d443-7c9f-4e0f-a01b-8f9ab70998bc" name="Changes" comment="MeaningFull" />
+    <list default="true" id="f7a1d443-7c9f-4e0f-a01b-8f9ab70998bc" name="Changes" comment="Attempt">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mission_planner.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mission_planner.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,6 +22,19 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
     <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
@@ -98,7 +114,7 @@
       <recent name="$PROJECT_DIR$/test" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.collision_test">
+  <component name="RunManager" selected="Python.mission_planner">
     <configuration name="collision_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Space-Debris-and-Route-Calculation" />
       <option name="ENV_FILES" value="" />
@@ -211,8 +227,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.collision_test" />
         <item itemvalue="Python.mission_planner" />
+        <item itemvalue="Python.collision_test" />
         <item itemvalue="Python.visualizes" />
         <item itemvalue="Python.initial_trajectory_visualization" />
         <item itemvalue="Python.rocket_selection" />
@@ -403,7 +419,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730983928792</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Attempt">
+      <option name="closed" value="true" />
+      <created>1730984223529</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1730984223529</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -423,6 +447,7 @@
     <MESSAGE value="structure defined" />
     <MESSAGE value="Restructure" />
     <MESSAGE value="MeaningFull" />
-    <option name="LAST_COMMIT_MESSAGE" value="MeaningFull" />
+    <MESSAGE value="Attempt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Attempt" />
   </component>
 </project>
