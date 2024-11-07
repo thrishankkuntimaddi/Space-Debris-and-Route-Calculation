@@ -1,13 +1,5 @@
-
-
-class TrajectoryOptimizer:
-    def __init__(self):
-        self.optimized_trajectory = None  # Stores the optimized trajectory details
-    def optimize_trajectory(self, adjusted_trajectory):
-        """
-        Optimize the adjusted trajectory for efficiency and fuel savings.
-        """
-        # Update the optimized trajectory attribute
-        self.optimized_trajectory = adjusted_trajectory
-        self.optimized_trajectory['optimized'] = True
-        return self.optimized_trajectory
+purpose = '''
+preload: Dataset contains Rocket Type, Initial_Velocity_v0_m_per_s, Launch_Angle_theta_deg, Inclination_Angle_phi_deg 
+inputs: Trajectory Equation, TimeStamp from collision_detection.py 
+outputs: optimized Trajectory Equation 
+'''

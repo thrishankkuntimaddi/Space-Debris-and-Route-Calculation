@@ -1,13 +1,21 @@
+purpose = '''
+inputs: None
+outputs: altitude(in Km), Range, Type of Orbit (LEO, MEO, GEO, HEO) 
+additional: call rocket_orbital_velocity_calculation.py
+            which results in rocket velocity to reach selected orbit  
+status: fully functional 
+'''
+
 class OrbitSelector:
     def __init__(self):
         self.orbit = None
 
     def select_orbit(self):
         print("Choose the type of orbit for your rocket launch:")
-        print("1. Low Earth Orbit (LEO)")
-        print("2. Medium Earth Orbit (MEO)")
-        print("3. Geostationary Orbit (GEO)")
-        print("4. High Earth Orbit (HEO)")
+        print("\t1. Low Earth Orbit (LEO)")
+        print("\t2. Medium Earth Orbit (MEO)")
+        print("\t3. Geostationary Orbit (GEO)")
+        print("\t4. High Earth Orbit (HEO)")
 
         choice = input("Enter the number of your choice (1-4): ")
 
@@ -45,27 +53,33 @@ class OrbitSelector:
 
     def display_orbit_details(self):
         print("\nYou have selected:")
-        print(f"Orbit: {self.orbit['name']}")
+        print(f"\tOrbit: {self.orbit['name']}")
         if 'altitude_range' in self.orbit:
-            print(f"Altitude Range: {self.orbit['altitude_range'][0]} - {self.orbit['altitude_range'][1]} km")
+            print(f"\tAltitude Range: {self.orbit['altitude_range'][0]} - {self.orbit['altitude_range'][1]} km")
         else:
-            print(f"Altitude: {self.orbit['altitude']} km")
-        print("Typical Uses:")
+            print(f"\tAltitude: {self.orbit['altitude']} km")
+        print("\tTypical Uses:")
         for use in self.orbit["typical_uses"]:
-            print(f"- {use}")
+            print(f"\t\t- {use}")
 
     def select_altitude(self):
         if 'altitude_range' in self.orbit:
-            altitude = int(input(f"\nEnter a specific altitude within the range {self.orbit['altitude_range'][0]} - {self.orbit['altitude_range'][1]} km: "))
-            if self.orbit['altitude_range'][0] <= altitude <= self.orbit['altitude_range'][1]:
-                print(f"You have selected an altitude of {altitude} km for the {self.orbit['name']}")
-                return altitude, list(self.orbit['altitude_range'])
-            else:
-                print("Invalid altitude. Please enter a value within the specified range.")
-                return self.select_altitude()
+            return self.get_altitude_in_range()
         else:
             print(f"You have selected the fixed altitude of {self.orbit['altitude']} km for the {self.orbit['name']}")
             return self.orbit['altitude'], [self.orbit['altitude'], self.orbit['altitude']]
+
+    def get_altitude_in_range(self):
+        while True:
+            try:
+                altitude = int(input(f"\nEnter a specific altitude within the range {self.orbit['altitude_range'][0]} - {self.orbit['altitude_range'][1]} km: "))
+                if self.orbit['altitude_range'][0] <= altitude <= self.orbit['altitude_range'][1]:
+                    print(f"You have selected an altitude of {altitude} km for the {self.orbit['name']}")
+                    return altitude, list(self.orbit['altitude_range'])
+                else:
+                    print("Invalid altitude. Please enter a value within the specified range.")
+            except ValueError:
+                print("Invalid input. Please enter a numeric value.")
 
 # if __name__ == "__main__":
 #     selector = OrbitSelector()
