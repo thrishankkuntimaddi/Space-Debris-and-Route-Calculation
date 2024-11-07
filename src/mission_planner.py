@@ -13,10 +13,10 @@ from initial_trajectory_visualization import TrajectoryVisualizer
 
 # Structure integration
 def main():
-    # # Step 1: timestamp.py
-    # mission_time = TimestampSelector()
-    # time_selected = mission_time.run()
-    # print(time_selected)
+    # Step 1: timestamp.py
+    mission_time = TimestampSelector()
+    time_selected = mission_time.run()
+    print(time_selected)
 
     # Step 2: orbit_selection.py
     global rocket_type, launch_sites, launch_coordinates
