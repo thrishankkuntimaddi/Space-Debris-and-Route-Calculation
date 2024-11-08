@@ -1,8 +1,0 @@
-Mission Report:
-====================
-Rocket Type: Falcon 1
-Launch Site: Omelek Island, Kwajalein Atoll, Marshall Islands
-Target Orbit Altitude: 500 km
---------------------
-No Collisions Detected
-====================

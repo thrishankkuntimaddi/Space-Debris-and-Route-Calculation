@@ -8,7 +8,7 @@ outputs: Type of Rocket, Launch Site, Launch Coordinates
 '''
 
 class RocketSelector:
-    def __init__(self, csv_path="/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/datasets/rocket_data.csv"):
+    def __init__(self, csv_path="/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/datasets/rocket_parameters.csv"):
         # Load the rocket dataset from CSV
         self.rocket_df = pd.read_csv(csv_path)
         # Ensure Max_Altitude_km column is numeric
@@ -24,7 +24,7 @@ class RocketSelector:
             'Low Earth Orbit (LEO)': [200, 2000],
             'Medium Earth Orbit (MEO)': [2000, 35785],
             'Geostationary Orbit (GEO)': [35786, 35786],
-            'High Earth Orbit (HEO)': [35787, 40000]
+            'High Earth Orbit (HEO)': [35787, 50000]
         }
         return orbit_ranges.get(orbit_type, None)
 
@@ -47,6 +47,8 @@ class RocketSelector:
         suitable_rockets = rockets_in_orbit[rockets_in_orbit['Max_Altitude_km'] >= target_altitude]
 
         if suitable_rockets.empty:
+            if target_altitude > 20000 and orbit_type == 'Medium Earth Orbit (MEO)':
+                return f"No rockets available for the specified target altitude of {target_altitude} km within the selected orbit type {orbit_type} as there are no rockets capable of reaching altitudes above 20000 km in MEO."
             return f"No rockets available for the specified target altitude of {target_altitude} km within the selected orbit type {orbit_type}."
 
         # Sort rockets by max altitude
@@ -65,32 +67,39 @@ class RocketSelector:
         if isinstance(rockets_list, str):
             return rockets_list
 
+        # Check if rockets are available
+        if not rockets_list:
+            return f"No rockets available for the specified target altitude of {target_altitude} km within the selected orbit type {orbit_type}."
+
         # Display available rockets
-        print("\nAvailable rockets for the specified target altitude and orbit type:")
-        for i, rocket in enumerate(rockets_list):
-            print(f"{i + 1}: {rocket['Rocket_Type']}")
+        if isinstance(rockets_list, list):
+            print("\nAvailable rockets for the specified target altitude and orbit type:")
+            for i, rocket in enumerate(rockets_list):
+                print(f"{i + 1}: {rocket['Rocket_Type']}")
 
-        # Allow user to select rocket type dynamically
-        rocket_type = input("\nEnter the rocket type from the list above: ")
+            # Allow user to select rocket type dynamically
+            rocket_type = input("\nEnter the rocket type from the list above: ")
 
-        # Filter rockets by the provided rocket type
-        rocket = [r for r in rockets_list if r['Rocket_Type'] == rocket_type]
-        if not rocket:
-            return f"Rocket type '{rocket_type}' not found."
+            # Filter rockets by the provided rocket type
+            rocket = [r for r in rockets_list if r['Rocket_Type'] == rocket_type]
+            if not rocket:
+                return f"Rocket type '{rocket_type}' not found."
 
-        # Output selected rocket details with additional orbit coordinates
-        selected_orbit_coordinates = f"Coordinates for target altitude {target_altitude} km"
-        rocket[0]['Selected_Orbit_Coordinates'] = selected_orbit_coordinates
+            # Output selected rocket details with additional orbit coordinates
+            selected_orbit_coordinates = f"Coordinates for target altitude {target_altitude} km"
+            rocket[0]['Selected_Orbit_Coordinates'] = selected_orbit_coordinates
 
-        # Prepare summary output
-        summary = {
-            "Rocket_Type": rocket[0]['Rocket_Type'],
-            "Launch_Site": rocket[0]['Launch_Site'],
-            "Launch_Site_Coordinates": rocket[0]['Launch_Site_Coordinates_latitude_and_longitude'],
-            "Orbit_Coordinates": rocket[0]['Selected_Orbit_Coordinates']
-        }
+            # Prepare summary output
+            summary = {
+                "Rocket_Type": rocket[0]['Rocket_Type'],
+                "Launch_Site": rocket[0]['Launch_Site'],
+                "Launch_Site_Coordinates": rocket[0]['Launch_Site_Coordinates_latitude_and_longitude'],
+                "Orbit_Coordinates": rocket[0]['Selected_Orbit_Coordinates']
+            }
 
-        return summary
+            return summary
+
+        return "No rockets available for the specified criteria."
 
 # # Example usage
 # if __name__ == "__main__":

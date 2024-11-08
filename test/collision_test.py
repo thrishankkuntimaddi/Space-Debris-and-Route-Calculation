@@ -1,88 +1,79 @@
 import numpy as np
-from skyfield.api import EarthSatellite, load
-from scipy.spatial import distance
+import pandas as pd
+from scipy.integrate import odeint
+import matplotlib.pyplot as plt
+from datetime import datetime, timedelta
+from preprocessing_tle import create_tle_dataset
+import re
+import os
+from math import cos, sin, exp
 
+class SpaceDebrisCollisionDetector:
+    def __init__(self, tle_csv_path, launch_time, trajectory_equation):
+        self.df_tle = create_tle_dataset(tle_csv_path)
+        self.launch_time = launch_time
+        self.trajectory_equation = trajectory_equation
+        print("TLE Dataset:")
+        # print(self.df_tle.head())
 
-def tle_to_position(tle_line1, tle_line2, time):
-    """
-    Converts TLE lines into a position vector (x, y, z) at a given time.
-    """
-    satellite = EarthSatellite(tle_line1, tle_line2, 'debris', load.timescale())
-    geocentric = satellite.at(time)
-    position = geocentric.position.km  # Returns (x, y, z) in kilometers
-    return np.array(position)
+    def parse_trajectory_equation(self, equation, t):
+        # Parse the trajectory equation string and evaluate it for the given time t
+        equation = re.sub(r'\bt\b', f'({t})', equation)
+        return eval(equation)
 
+    def predict_position_velocity(self, tle_row, t):
+        # Simple linear prediction using current velocity
+        x = tle_row['x'] + tle_row['vx'] * t
+        y = tle_row['y'] + tle_row['vy'] * t
+        z = tle_row['z'] + tle_row['vz'] * t
+        return x, y, z
 
-def trajectory_position(x_eq, y_eq, z_eq, t):
-    """
-    Evaluates the given trajectory equations for x, y, z at time t.
-    """
-    x = eval(x_eq.replace('t', str(t)))
-    y = eval(y_eq.replace('t', str(t)))
-    z = eval(z_eq.replace('t', str(t)))
-    return np.array([x, y, z])
+    def rocket_trajectory(self, current_time):
+        # Calculate time in seconds since launch
+        delta_t = (current_time - self.launch_time).total_seconds()
+        if delta_t < 0:
+            raise ValueError("Current time is before the launch time.")
 
+        print(f"Delta time (seconds) since launch: {delta_t}")  # Debugging info
 
-def check_collision(tle_data, trajectory_eq, time_range, threshold_distance=5.0):
-    """
-    Checks for possible collisions between a trajectory and TLE objects.
+        x = self.parse_trajectory_equation(self.trajectory_equation['x'], delta_t)
+        y = self.parse_trajectory_equation(self.trajectory_equation['y'], delta_t)
+        z = self.parse_trajectory_equation(self.trajectory_equation['z'], delta_t)
+        return x, y, z
 
-    Parameters:
-        tle_data (list): List of tuples containing TLE lines.
-        trajectory_eq (dict): A dictionary with 'x', 'y', and 'z' keys for trajectory equations.
-        time_range (list): List of time points to evaluate.
-        threshold_distance (float): Minimum distance considered as a collision (in km).
+    def detect_collision(self, time_horizon=500, threshold=1000):
+        collision_detected = False
+        for t in range(time_horizon):
+            current_time = self.launch_time + timedelta(seconds=t)
+            try:
+                rocket_pos = self.rocket_trajectory(current_time)
+            except ValueError as e:
+                print(e)
+                continue
 
-    Returns:
-        list: List of collision events.
-    """
-    collisions = []
-    ts = load.timescale()
-
-    for t in time_range:
-        time = ts.utc(2024, 11, 7, 0, 0, t)  # Example time - needs customization based on requirement
-        traj_pos = trajectory_position(trajectory_eq['x'], trajectory_eq['y'], trajectory_eq['z'], t)
-
-        for tle_line1, tle_line2 in tle_data:
-            debris_pos = tle_to_position(tle_line1, tle_line2, time)
-
-            # Calculate the Euclidean distance between the debris and trajectory point
-            dist = distance.euclidean(traj_pos, debris_pos)
-            if dist <= threshold_distance:
-                collisions.append({
-                    'time': time,
-                    'debris_position': debris_pos,
-                    'trajectory_position': traj_pos,
-                    'distance': dist
-                })
-    return collisions
-
+            for _, tle_row in self.df_tle.iterrows():
+                tle_pos = self.predict_position_velocity(tle_row, t)
+                distance = np.sqrt((rocket_pos[0] - tle_pos[0]) ** 2 +
+                                   (rocket_pos[1] - tle_pos[1]) ** 2 +
+                                   (rocket_pos[2] - tle_pos[2]) ** 2)
+                # print(f"Time {current_time}: Distance to object {tle_row['Object_ID']} is {distance:.2f}")  # Debugging info
+                if distance < threshold:
+                    print(f"Collision detected at time {current_time} with object {tle_row['Object_ID']}")
+                    collision_detected = True
+                    break
+            if collision_detected:
+                break
+        if not collision_detected:
+            print("No Collision detected")
 
 if __name__ == "__main__":
-    # Example TLE data (replace with actual dataset)
-    tle_data = [
-        ("1 25544U 98067A   20333.54807870  .00001267  00000-0  29647-4 0  9995",
-         "2 25544  51.6456  80.4486 0005542  40.3199  57.8884 15.48905227253849")
-    ]
-
-    # Provided trajectory equation (replace x(t), y(t), z(t) equations appropriately)
-    trajectory_eq = {
-        'x': '28.3922 + 56.0 * t * np.cos(0.7853981633974483) * np.cos(0.0)',
-        'y': '-80.6077 + 56.0 * t * np.cos(0.7853981633974483) * np.sin(0.0)',
-        'z': '0.0 + 56.0 * t * np.sin(0.7853981633974483)'
+    launch_time = datetime(2024, 10, 28, 12, 0, 0)
+    trajectory_equation = {
+        'x': '5.236 + 5.5 * t * cos(0.7853981633974483) * cos(0.0)',
+        'y': '-52.768 + 5.5 * t * cos(0.7853981633974483) * sin(0.0)',
+        'z': '0.0 + 5.5 * t * sin(0.7853981633974483)',
+        'theta': '0.7853981633974483 * (1 - exp(-0.1 * t))'
     }
-
-    # Time range to evaluate
-    time_range = range(0, 3600, 60)  # every minute in an hour
-
-    # Check for collisions
-    collisions = check_collision(tle_data, trajectory_eq, time_range)
-
-    if collisions:
-        for collision in collisions:
-            print(f"Collision detected at {collision['time']}:")
-            print(f"  Trajectory Position: {collision['trajectory_position']}")
-            print(f"  Debris Position: {collision['debris_position']}")
-            print(f"  Distance: {collision['distance']} km")
-    else:
-        print("No collisions detected.")
+    tle_csv_path = '/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/choice_of_tle_by_user/leo_tle_dataset.csv'
+    detector = SpaceDebrisCollisionDetector(tle_csv_path, launch_time, trajectory_equation)
+    detector.detect_collision()
