@@ -4,13 +4,15 @@ outputs: detailed report
 '''
 
 # mission_report.py
+# mission_report.py
 
 class MissionReport:
     def __init__(self):
         self.report_data = {
             "mission_overview": {},
             "rocket_details": {},
-            "trajectory_info": {},
+            "initial_trajectory_info": {},
+            "optimized_trajectory_info": {},
             "collision_detection_summary": {},
             "orbital_analysis": {},
             "mission_planning": {},
@@ -33,10 +35,16 @@ class MissionReport:
             "launch_site_coordinates": launch_site_coordinates
         }
 
-    def add_trajectory_info(self, trajectory_equation, parameters, visualization_notes):
-        self.report_data["trajectory_info"] = {
+    def add_initial_trajectory_info(self, trajectory_equation, parameters, visualization_notes):
+        self.report_data["initial_trajectory_info"] = {
             "trajectory_equation": trajectory_equation,
             "parameters": parameters,
+            "visualization_notes": visualization_notes
+        }
+
+    def add_optimized_trajectory_info(self, optimized_trajectory_equation, visualization_notes):
+        self.report_data["optimized_trajectory_info"] = {
+            "optimized_trajectory_equation": optimized_trajectory_equation,
             "visualization_notes": visualization_notes
         }
 
@@ -78,10 +86,11 @@ class MissionReport:
         # This method prints or writes the full mission report to a file
         report_str = "\nMISSION REPORT\n\n"
         for section, content in self.report_data.items():
-            report_str += f"{section.upper().replace('_', ' ')}:\n"
-            for key, value in content.items():
-                report_str += f"  {key.replace('_', ' ').title()}: {value}\n"
-            report_str += "\n"
+            if content:  # Only include sections with content
+                report_str += f"{section.upper().replace('_', ' ')}:\n"
+                for key, value in content.items():
+                    report_str += f"  {key.replace('_', ' ').title()}: {value}\n"
+                report_str += "\n"
         return report_str
 
     def save_report_to_file(self, filename="mission_report.txt"):
@@ -102,10 +111,10 @@ class MissionReport:
 #         compatible_launch_sites=["Cape Canaveral", "Vandenberg AFB"],
 #         launch_site_coordinates="28.5721 N, 80.6480 W"
 #     )
-#     mission_report.add_trajectory_info(
+#     mission_report.add_initial_trajectory_info(
 #         trajectory_equation="y = mx + c",
 #         parameters={"initial_velocity": "3000 m/s", "launch_angle": "45 degrees"},
-#         visualization_notes="Trajectory visualization indicates a stable path with no major deviations."
+#         visualization_notes="Initial trajectory visualization indicates a stable path with no major deviations."
 #     )
 #     mission_report.add_collision_detection_summary(
 #         detection_methods=["Static Analysis", "Dynamic Analysis"],
@@ -116,6 +125,10 @@ class MissionReport:
 #         selected_orbit="Altitude: 2000 km, Type: LEO",
 #         feasibility_analysis="Feasible with selected rocket",
 #         orbital_velocity="7.8 km/s"
+#     )
+#     mission_report.add_optimized_trajectory_info(
+#         optimized_trajectory_equation="y = mx + c (optimized)",
+#         visualization_notes="Post-optimization trajectory visualization completed."
 #     )
 #     mission_report.add_mission_planning(
 #         user_inputs={"launch_time": "2024-12-16 14:00 UTC", "rocket_type": "Falcon 9"},
@@ -131,6 +144,6 @@ class MissionReport:
 #         readiness_assessment="Mission is ready for launch with low risk of collision.",
 #         recommendations="Continue monitoring debris and adjust trajectory if new debris is detected."
 #     )
-
-    # Save the report to a file
-    mission_report.save_report_to_file()
+#
+#     # Save the report to a file
+#     mission_report.save_report_to_file()

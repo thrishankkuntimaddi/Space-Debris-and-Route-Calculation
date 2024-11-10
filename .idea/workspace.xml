@@ -5,31 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7a1d443-7c9f-4e0f-a01b-8f9ab70998bc" name="Changes" comment="upto marks">
-      <change afterPath="$PROJECT_DIR$/data /tle_csv_to_txt.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data /tle_preprocessing.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/choose_collision_module.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/collision_detection_evaluation_matrix.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/dynamics_collision_detection.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/testforsky.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unused/trajectory_optimizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Space-Debris-and-Route-Calculation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Space-Debris-and-Route-Calculation.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/choice_of_tle_by_user/Simulated_TLE_Collision_Dataset.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/dummy_mission_planne.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/choice_of_tle_by_user/user_tle_dataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/choice_of_tle_by_user/user_tle_dataset.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datasets/2024-10-25--2024-10-26.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/datasets/rocket_parameters.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/rocket_parameters.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/collision_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/collision_detection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data_selection_and_preparation.py" beforeDir="false" afterPath="$PROJECT_DIR$/unused/data_selection_and_preparation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/impact_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/unused/impact_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/initial_trajectory_visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/initial_trajectory_visualization.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mission_planner.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mission_planner.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mission_report.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mission_report.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/orbital_dynamics.py" beforeDir="false" afterPath="$PROJECT_DIR$/unused/orbital_dynamics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/preprocessing_tle.py" beforeDir="false" afterPath="$PROJECT_DIR$/unused/preprocessing_tle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rocket_orbital_velocity_calculation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rocket_orbital_velocity_calculation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rocket_selection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rocket_selection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/trajectory_optimizer.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/collision_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/collision_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,6 +82,7 @@
     "Python.collision_test.executor": "Run",
     "Python.collision_test_on_TLE.executor": "Run",
     "Python.data_selection_and_preparation.executor": "Run",
+    "Python.dummy_mission_planne.executor": "Run",
     "Python.extract_co_ordinates_for_launch_site.executor": "Run",
     "Python.extract_co_ordinates_test.executor": "Run",
     "Python.geo_tle_data_creation.executor": "Run",
@@ -138,20 +120,22 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation",
+    "last_opened_file_path": "/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/choice_of_tle_by_user",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/choice_of_tle_by_user" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/unused" />
       <recent name="$PROJECT_DIR$/test" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mission_report">
+  <component name="RunManager" selected="Python.mission_planner">
     <configuration name="choose_collision_module" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Space-Debris-and-Route-Calculation" />
       <option name="ENV_FILES" value="" />
@@ -188,6 +172,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/collision_detection.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dummy_mission_planne" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Space-Debris-and-Route-Calculation" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/dummy_mission_planne.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -240,35 +246,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tle_csv_to_txt" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Space-Debris-and-Route-Calculation" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data " />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data /tle_csv_to_txt.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.mission_report" />
         <item itemvalue="Python.mission_planner" />
+        <item itemvalue="Python.dummy_mission_planne" />
+        <item itemvalue="Python.mission_report" />
         <item itemvalue="Python.choose_collision_module" />
         <item itemvalue="Python.collision_detection" />
-        <item itemvalue="Python.tle_csv_to_txt" />
       </list>
     </recent_temporary>
   </component>
@@ -496,7 +480,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731058251423</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="upto marks">
+      <option name="closed" value="true" />
+      <created>1731253114114</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1731253114114</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
