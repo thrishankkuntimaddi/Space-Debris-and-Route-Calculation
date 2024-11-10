@@ -7,7 +7,7 @@ from skyfield.elementslib import osculating_elements_of
 from skyfield.api import Topos
 
 
-class CollisionDetection:
+class CollisionDetectionDynamics:
     def __init__(self, time_selected, trajectory_equation, rocket_type, launch_sites, launch_coordinates, altitude,
                  altitude_range, orbit_type, tle_data_path, collision_threshold=1.0):
         # Define a threshold distance for collision detection (e.g., within 1 kilometer)
@@ -168,9 +168,16 @@ class CollisionDetection:
                 self.update_q_table(state, action, reward, next_state)
                 state = next_state
 
-                # If collision, break and reset trajectory
+                # If collision, immediately adjust trajectory to avoid collision
                 if collision:
-                    break
+                    # Adjust the trajectory dynamically to avoid collision
+                    alternative_action = random.choice(self.actions)
+                    x_cumulative_adjust += alternative_action[0]
+                    y_cumulative_adjust += alternative_action[1]
+                    print(f"Collision detected! Adjusting trajectory with action: {alternative_action}")
+                    reward = 5  # Provide a smaller positive reward for adjusting to avoid collision
+                    total_reward += reward
+                    # Continue with adjusted trajectory
 
             # Decay exploration rate more aggressively
             self.exploration_rate *= self.exploration_decay
@@ -199,10 +206,10 @@ if __name__ == "__main__":
     altitude = 1500
     altitude_range = [200, 1500]
     orbit_type = "MEO"
-    tle_data_path = '/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/datasets/tle_data.csv'
+    tle_data_path = '/path/to/your/tle_data.csv'
 
     # Test the collision calculation and optimization
-    collision_detector = CollisionDetection(time_selected, trajectory_equation, rocket_type, launch_sites,
+    collision_detector = CollisionDetectionDynamics(time_selected, trajectory_equation, rocket_type, launch_sites,
                                             launch_coordinates, altitude, altitude_range, orbit_type, tle_data_path)
     optimized_trajectory = collision_detector.optimize_trajectory()
     print(f"Optimized Trajectory: {optimized_trajectory}")

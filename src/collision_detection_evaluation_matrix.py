@@ -7,7 +7,7 @@ from skyfield.elementslib import osculating_elements_of
 from skyfield.api import Topos
 
 
-class CollisionDetection:
+class CollisionDetectionEval:
     def __init__(self, time_selected, trajectory_equation, rocket_type, launch_sites, launch_coordinates, altitude,
                  altitude_range, orbit_type, tle_data_path, collision_threshold=1.0):
         # Define a threshold distance for collision detection (e.g., within 1 kilometer)
@@ -34,6 +34,15 @@ class CollisionDetection:
         self.discount_factor = 0.9
         self.exploration_rate = 1.0
         self.exploration_decay = 0.995
+
+        # Metrics Tracking
+        self.metrics = {
+            'total_collisions': 0,
+            'collision_rate': 0.0,
+            'average_reward': 0.0,
+            'trajectory_deviation': [],
+            'average_distance': []
+        }
 
     def rocket_position(self, t):
         try:
@@ -111,6 +120,8 @@ class CollisionDetection:
             if not np.isnan(distance) and distance <= self.collision_threshold:
                 print(
                     f"Collision detected at time {t} seconds! Rocket Position: {list(rocket_pos)}, Satellite Position: {list(satellite_pos)}, Distance: {distance}, Satellite ID: {satellite_id}")
+                self.metrics['total_collisions'] += 1
+                self.metrics['average_distance'].append(distance)
                 return True, distance
 
         return False, None
@@ -138,6 +149,8 @@ class CollisionDetection:
         episodes = int(input("Enter the number of episodes for training: "))
         total_seconds = int(input("Enter the total number of seconds to simulate: "))
         step_seconds = int(input("Enter the time step in seconds: "))
+
+        total_rewards = []
 
         for episode in range(episodes):
             print(f"Starting episode {episode + 1}/{episodes}")
@@ -168,20 +181,36 @@ class CollisionDetection:
                 self.update_q_table(state, action, reward, next_state)
                 state = next_state
 
-                # If collision, break and reset trajectory
+                # If collision, immediately adjust trajectory to avoid collision
                 if collision:
-                    break
+                    # Adjust the trajectory dynamically to avoid collision
+                    alternative_action = random.choice(self.actions)
+                    x_cumulative_adjust += alternative_action[0]
+                    y_cumulative_adjust += alternative_action[1]
+                    print(f"Collision detected! Adjusting trajectory with action: {alternative_action}")
+                    reward = 5  # Provide a smaller positive reward for adjusting to avoid collision
+                    total_reward += reward
+                    # Continue with adjusted trajectory
+
+            # Track total reward for the episode
+            total_rewards.append(total_reward)
 
             # Decay exploration rate more aggressively
             self.exploration_rate *= self.exploration_decay
+
+        # Calculate metrics
+        self.metrics['collision_rate'] = self.metrics['total_collisions'] / (episodes * (total_seconds / step_seconds))
+        self.metrics['average_reward'] = np.mean(total_rewards)
+        self.metrics['trajectory_deviation'] = [x_cumulative_adjust, y_cumulative_adjust]
+        self.metrics['average_distance'] = np.mean(self.metrics['average_distance']) if self.metrics['average_distance'] else None
 
         # Apply cumulative adjustments to the trajectory equation
         # Update x and y components with the cumulative adjustments dynamically
         self.trajectory_equation['x'] = f"{self.trajectory_equation['x']} + {x_cumulative_adjust} * t"
         self.trajectory_equation['y'] = f"{self.trajectory_equation['y']} + {y_cumulative_adjust} * t"
 
-        # Return the optimized trajectory after training
-        return self.trajectory_equation
+        # Return the optimized trajectory and metrics after training
+        return self.trajectory_equation, self.metrics
 
 
 if __name__ == "__main__":
@@ -202,7 +231,8 @@ if __name__ == "__main__":
     tle_data_path = '/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/datasets/tle_data.csv'
 
     # Test the collision calculation and optimization
-    collision_detector = CollisionDetection(time_selected, trajectory_equation, rocket_type, launch_sites,
+    collision_detector = CollisionDetectionEval(time_selected, trajectory_equation, rocket_type, launch_sites,
                                             launch_coordinates, altitude, altitude_range, orbit_type, tle_data_path)
-    optimized_trajectory = collision_detector.optimize_trajectory()
+    optimized_trajectory, metrics = collision_detector.optimize_trajectory()
     print(f"Optimized Trajectory: {optimized_trajectory}")
+    print(f"Metrics: {metrics}")

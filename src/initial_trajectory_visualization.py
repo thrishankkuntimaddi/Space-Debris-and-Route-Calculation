@@ -74,17 +74,22 @@ class TrajectoryVisualizer:
         plt.show()
 
 
-# Example usage
-if __name__ == "__main__":
-    # Define trajectory equations with offsets
-    equations = {
-        'x': 'x(t) = 5.236 + 5.5 * t * np.cos(0.7853981633974483) * np.cos(0.0)',
-        'y': 'y(t) = -52.768 + 5.5 * t * np.cos(0.7853981633974483) * np.sin(0.0)',
-        'z': 'z(t) = 0.0 + 5.5 * t * np.sin(0.7853981633974483)',
-        'theta': 'theta(t) = 0.7853981633974483 * (1 - np.exp(-0.1 * t))'
-    }
-
-    # Create an instance of TrajectoryVisualizer with the trajectory equations
-    visualizer = TrajectoryVisualizer(equations=equations, t_range=(0, 10))
-    # Plot the trajectory
-    visualizer.plot_trajectory()
+# # Example usage
+# if __name__ == "__main__":
+#     # Define trajectory equations with offsets
+#     equations = {
+#
+#     'x': 'x(t) = 13.719 + 98.0 * t * cos(0.7853981633974483) * cos(0.0)',
+#
+#     'y': 'y(t) = 80.2304 + 98.0 * t * cos(0.7853981633974483) * sin(0.0)',
+#
+#     'z': 'z(t) = 0.0 + 98.0 * t * sin(0.7853981633974483)',
+#
+#     'theta': 'theta(t) = 0.7853981633974483 * (1 - exp(-0.1 * t))'
+#
+#     }
+#
+#     # Create an instance of TrajectoryVisualizer with the trajectory equations
+#     visualizer = TrajectoryVisualizer(equations=equations, t_range=(0, 100))
+#     # Plot the trajectory
+#     visualizer.plot_trajectory()

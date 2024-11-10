@@ -28,8 +28,13 @@ class DataPreparation:
         generator.generate_tle_dataset()
         return generator.file_path
 
-    # def __str__(self):
-    #     return f"{self.file_path}"
+    def prepare_data(self):
+        # Ensures the dataset is actually prepared and the file exists
+        if not os.path.exists(self.file_path):
+            raise FileNotFoundError(f"The dataset file at {self.file_path} was not found.")
+
+    def __str__(self):
+        return f"{self.file_path}"
 
 class BaseTLEGenerator:
     def __init__(self, num_objects, directory, timestamp):
@@ -71,20 +76,18 @@ class BaseTLEGenerator:
                     "Rev_Number": rev_number
                 })
 
-        # print(f"TLE dataset successfully saved at: {self.file_path}")
-
 class LEOTLEGenerator(BaseTLEGenerator):
     def get_file_prefix(self):
         return "leo"
 
     def generate_tle(self, satellite_id):
-        line1 = f"1 {satellite_id:05d}U 23067A   {self.epoch_date}  .00000123  00000-0  12034-4 0  9999"
-        inclination = random.uniform(0, 90)
+        line1 = f"1 {satellite_id:05d}U 23067A   {self.epoch_date}  .{random.randint(100000, 999999)}  00000-0  {random.randint(10000, 99999)}-4 0  9999"
+        inclination = random.uniform(25, 88)  # Increased randomness in inclination
         raan = random.uniform(0, 360)
         eccentricity = random.randint(0, 100000)
         arg_perigee = random.uniform(0, 360)
         mean_anomaly = random.uniform(0, 360)
-        mean_motion = random.uniform(11, 15)
+        mean_motion = random.uniform(11, 15) + random.uniform(-1.0, 1.0)  # Increased variation to mean motion
         rev_number = random.randint(1, 99999)
         line2 = f"2 {satellite_id:05d} {inclination:8.4f} {raan:8.4f} {eccentricity:07d} {arg_perigee:8.4f} {mean_anomaly:8.4f} {mean_motion:11.8f} {rev_number:05d}"
         return line1, line2, inclination, raan, eccentricity, arg_perigee, mean_anomaly, mean_motion, rev_number
@@ -94,13 +97,13 @@ class MEOTLEGenerator(BaseTLEGenerator):
         return "meo"
 
     def generate_tle(self, satellite_id):
-        line1 = f"1 {satellite_id:05d}U 23067A   {self.epoch_date}  .00000123  00000-0  12034-4 0  9999"
-        inclination = random.uniform(0, 70)
+        line1 = f"1 {satellite_id:05d}U 23067A   {self.epoch_date}  .{random.randint(100000, 999999)}  00000-0  {random.randint(10000, 99999)}-4 0  9999"
+        inclination = random.uniform(10, 70)  # Increased randomness in inclination
         raan = random.uniform(0, 360)
         eccentricity = random.randint(0, 500000)
         arg_perigee = random.uniform(0, 360)
         mean_anomaly = random.uniform(0, 360)
-        mean_motion = random.uniform(2, 6)
+        mean_motion = random.uniform(2, 6) + random.uniform(-0.5, 0.5)  # Increased variation to mean motion
         rev_number = random.randint(1, 99999)
         line2 = f"2 {satellite_id:05d} {inclination:8.4f} {raan:8.4f} {eccentricity:07d} {arg_perigee:8.4f} {mean_anomaly:8.4f} {mean_motion:11.8f} {rev_number:05d}"
         return line1, line2, inclination, raan, eccentricity, arg_perigee, mean_anomaly, mean_motion, rev_number
@@ -110,13 +113,13 @@ class GEOTLEGenerator(BaseTLEGenerator):
         return "geo"
 
     def generate_tle(self, satellite_id):
-        line1 = f"1 {satellite_id:05d}U 23067A   {self.epoch_date}  .00000123  00000-0  12034-4 0  9999"
-        inclination = random.uniform(0, 5)
+        line1 = f"1 {satellite_id:05d}U 23067A   {self.epoch_date}  .{random.randint(100000, 999999)}  00000-0  {random.randint(10000, 99999)}-4 0  9999"
+        inclination = random.uniform(0.1, 10)  # Avoid inclination of exactly 0 to add variability
         raan = random.uniform(0, 360)
         eccentricity = random.randint(0, 10000)
         arg_perigee = random.uniform(0, 360)
         mean_anomaly = random.uniform(0, 360)
-        mean_motion = 1.0027
+        mean_motion = 1.0027 + random.uniform(-0.001, 0.001)  # Increased variation to GEO mean motion
         rev_number = random.randint(1, 99999)
         line2 = f"2 {satellite_id:05d} {inclination:8.4f} {raan:8.4f} {eccentricity:07d} {arg_perigee:8.4f} {mean_anomaly:8.4f} {mean_motion:11.8f} {rev_number:05d}"
         return line1, line2, inclination, raan, eccentricity, arg_perigee, mean_anomaly, mean_motion, rev_number
@@ -126,13 +129,13 @@ class HEOTLEGenerator(BaseTLEGenerator):
         return "heo"
 
     def generate_tle(self, satellite_id):
-        line1 = f"1 {satellite_id:05d}U 23067A   {self.epoch_date}  .00000123  00000-0  12034-4 0  9999"
-        inclination = random.uniform(45, 90)
+        line1 = f"1 {satellite_id:05d}U 23067A   {self.epoch_date}  .{random.randint(100000, 999999)}  00000-0  {random.randint(10000, 99999)}-4 0  9999"
+        inclination = random.uniform(50, 90)  # Increased randomness in inclination
         raan = random.uniform(0, 360)
         eccentricity = random.randint(500000, 900000)
         arg_perigee = random.uniform(0, 360)
         mean_anomaly = random.uniform(0, 360)
-        mean_motion = random.uniform(0.5, 2)
+        mean_motion = random.uniform(0.5, 3) + random.uniform(-0.5, 0.5)  # Increased variation to mean motion
         rev_number = random.randint(1, 99999)
         line2 = f"2 {satellite_id:05d} {inclination:8.4f} {raan:8.4f} {eccentricity:07d} {arg_perigee:8.4f} {mean_anomaly:8.4f} {mean_motion:11.8f} {rev_number:05d}"
         return line1, line2, inclination, raan, eccentricity, arg_perigee, mean_anomaly, mean_motion, rev_number

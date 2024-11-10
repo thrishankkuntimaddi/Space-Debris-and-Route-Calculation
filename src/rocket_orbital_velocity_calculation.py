@@ -12,7 +12,7 @@ class VelocityCalculate:
     @staticmethod
     def calculate_orbital_velocity(target_orbit):
         """
-        Calculates the velocity required for the rocket to maintain the target orbit.
+        Calculates the verlocity required for the rocket to maintain the target orbit.
         """
         G = 6.67430e-11  # Gravitational constant, m^3 kg^-1 s^-2
         M = 5.972e24  # Mass of Earth, kg
