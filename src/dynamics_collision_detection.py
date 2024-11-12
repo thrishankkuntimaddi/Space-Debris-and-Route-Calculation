@@ -21,7 +21,7 @@ class CollisionDetectionDynamics:
         self.altitude_range = altitude_range
         self.orbit_type = orbit_type
         self.time_selected = time_selected
-        self.tle_data = pd.read_csv(tle_data_path)
+        self.tle_data = pd.read_csv(tle_data_path, low_memory=False)
         self.loader = Loader('~/.skyfield')
         self.ts = self.loader.timescale()
         eph = self.loader('de421.bsp')
@@ -190,26 +190,26 @@ class CollisionDetectionDynamics:
         # Return the optimized trajectory after training
         return self.trajectory_equation
 
-
-if __name__ == "__main__":
-    # Example updated inputs
-    time_selected = "2024-12-01 10:00:00"
-    trajectory_equation = {
-        'x': 'x(t) = 30.0 + 40.0 * t * cos(1.047) * cos(0.523)',
-        'y': 'y(t) = 50.0 + 40.0 * t * cos(1.047) * sin(0.523)',
-        'z': 'z(t) = 0.0 + 40.0 * t * sin(1.047)',
-        'theta': 'theta(t) = 1.047 * (1 - exp(-0.05 * t))'
-    }
-    rocket_type = "Delta IV"
-    launch_sites = ["Kennedy Space Center", "Baikonur Cosmodrome"]
-    launch_coordinates = (45.9203, 63.3421)
-    altitude = 1500
-    altitude_range = [200, 1500]
-    orbit_type = "MEO"
-    tle_data_path = '/path/to/your/tle_data.csv'
-
-    # Test the collision calculation and optimization
-    collision_detector = CollisionDetectionDynamics(time_selected, trajectory_equation, rocket_type, launch_sites,
-                                            launch_coordinates, altitude, altitude_range, orbit_type, tle_data_path)
-    optimized_trajectory = collision_detector.optimize_trajectory()
-    print(f"Optimized Trajectory: {optimized_trajectory}")
+#
+# if __name__ == "__main__":
+#     # Example updated inputs
+#     time_selected = "2024-12-01 10:00:00"
+#     trajectory_equation = {
+#         'x': 'x(t) = 30.0 + 40.0 * t * cos(1.047) * cos(0.523)',
+#         'y': 'y(t) = 50.0 + 40.0 * t * cos(1.047) * sin(0.523)',
+#         'z': 'z(t) = 0.0 + 40.0 * t * sin(1.047)',
+#         'theta': 'theta(t) = 1.047 * (1 - exp(-0.05 * t))'
+#     }
+#     rocket_type = "Delta IV"
+#     launch_sites = ["Kennedy Space Center", "Baikonur Cosmodrome"]
+#     launch_coordinates = (45.9203, 63.3421)
+#     altitude = 1500
+#     altitude_range = [200, 1500]
+#     orbit_type = "MEO"
+#     tle_data_path = '/path/to/your/tle_data.csv'
+#
+#     # Test the collision calculation and optimization
+#     collision_detector = CollisionDetectionDynamics(time_selected, trajectory_equation, rocket_type, launch_sites,
+#                                             launch_coordinates, altitude, altitude_range, orbit_type, tle_data_path)
+#     optimized_trajectory = collision_detector.optimize_trajectory()
+#     print(f"Optimized Trajectory: {optimized_trajectory}")

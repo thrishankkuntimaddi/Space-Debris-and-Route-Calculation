@@ -21,7 +21,7 @@ class CollisionDetection:
         self.altitude_range = altitude_range
         self.orbit_type = orbit_type
         self.time_selected = time_selected
-        self.tle_data = pd.read_csv(tle_data_path)
+        self.tle_data = pd.read_csv(tle_data_path, low_memory=False)
         self.loader = Loader('~/.skyfield')
         self.ts = self.loader.timescale()
         eph = self.loader('de421.bsp')

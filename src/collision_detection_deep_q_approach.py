@@ -5,20 +5,21 @@ import random
 from skyfield.api import Loader, EarthSatellite
 from skyfield.elementslib import osculating_elements_of
 from skyfield.api import Topos
+import tensorflow as tf
+from tensorflow.keras import layers, optimizers
 
-
-class CollisionDetectionEval:
-    def __init__(self, time_selected, trajectory_equation, rocket_type, launch_sites, launch_coordinates, altitude,
-                 altitude_range, orbit_type, tle_data_path, collision_threshold=1.0):
+class CollisionDetectionDeep:
+    def __init__(self, timestamp, trajectory_equation, rocket_type, launch_sites, launch_coordinates, altitude,
+                 altitude_range, orbit_type, time_selected, tle_data_path, collision_threshold=1.0):
         # Define a threshold distance for collision detection (e.g., within 1 kilometer)
         self.collision_threshold = collision_threshold
-        self.timestamp = pd.Timestamp(time_selected)
+        self.timestamp = timestamp
         self.trajectory_equation = trajectory_equation
         self.rocket_type = rocket_type
         self.launch_sites = launch_sites
         self.launch_coordinates = launch_coordinates
         self.altitude = altitude
-        self.altitude_range = altitude_range
+        self.altitude_range = [200, 2000]
         self.orbit_type = orbit_type
         self.time_selected = time_selected
         self.tle_data = pd.read_csv(tle_data_path, low_memory=False)
@@ -27,22 +28,28 @@ class CollisionDetectionEval:
         eph = self.loader('de421.bsp')
         self.earth = eph['earth']
 
-        # Parameters for Q-Learning
-        self.q_table = {}  # State-action values
-        self.actions = [(-0.01, 0), (0, -0.01), (0.01, 0), (0, 0.01)]  # Example trajectory adjustments
-        self.learning_rate = 0.1
-        self.discount_factor = 0.9
-        self.exploration_rate = 1.0
-        self.exploration_decay = 0.995
+        # Parameters for Deep Q-Learning
+        self.state_size = 3  # e.g., time, x_offset, y_offset
+        self.action_size = 4  # Number of possible actions
+        self.gamma = 0.95  # Discount rate
+        self.epsilon = 1.0  # Exploration rate
+        self.epsilon_min = 0.1
+        self.epsilon_decay = 0.995
+        self.learning_rate = 0.001
+        self.model = self._build_model()
 
-        # Metrics Tracking
-        self.metrics = {
-            'total_collisions': 0,
-            'collision_rate': 0.0,
-            'average_reward': 0.0,
-            'trajectory_deviation': [],
-            'average_distance': []
-        }
+        # Define possible actions
+        self.actions = [(0, 0), (10, 0), (0, 10), (-10, 0)]  # Adjustments for time and y-offset
+
+    def _build_model(self):
+        # Neural network for Deep Q-Learning
+        model = tf.keras.Sequential()
+        model.add(layers.Input(shape=(self.state_size,)))  # Use Input layer instead of input_dim
+        model.add(layers.Dense(24, activation='relu'))
+        model.add(layers.Dense(24, activation='relu'))
+        model.add(layers.Dense(self.action_size, activation='linear'))
+        model.compile(loss='mse', optimizer=optimizers.Adam(learning_rate=self.learning_rate))
+        return model
 
     def rocket_position(self, t):
         try:
@@ -120,119 +127,105 @@ class CollisionDetectionEval:
             if not np.isnan(distance) and distance <= self.collision_threshold:
                 print(
                     f"Collision detected at time {t} seconds! Rocket Position: {list(rocket_pos)}, Satellite Position: {list(satellite_pos)}, Distance: {distance}, Satellite ID: {satellite_id}")
-                self.metrics['total_collisions'] += 1
-                self.metrics['average_distance'].append(distance)
                 return True, distance
 
         return False, None
 
     def choose_action(self, state):
         # Epsilon-greedy policy for action selection
-        if random.uniform(0, 1) < self.exploration_rate:
-            return random.choice(self.actions)
-        else:
-            return max(self.q_table.get(state, {}), key=self.q_table.get(state, {}).get,
-                       default=random.choice(self.actions))
+        if np.random.rand() <= self.epsilon:
+            return random.randrange(self.action_size)
+        q_values = self.model.predict(state)[0]
+        return np.argmax(q_values)
 
-    def update_q_table(self, state, action, reward, next_state):
-        # Update Q-value using the Q-learning update rule
-        current_q = self.q_table.get(state, {}).get(action, 0)
-        max_future_q = max(self.q_table.get(next_state, {}).values(), default=0)
-        new_q = (1 - self.learning_rate) * current_q + self.learning_rate * (
-                    reward + self.discount_factor * max_future_q)
-        if state not in self.q_table:
-            self.q_table[state] = {}
-        self.q_table[state][action] = new_q
+    def replay(self, memory, batch_size):
+        # Experience replay to train the model
+        minibatch = random.sample(memory, batch_size)
+        for state, action, reward, next_state, done in minibatch:
+            target = reward
+            if not done:
+                target = reward + self.gamma * np.amax(self.model.predict(next_state)[0])
+            target_f = self.model.predict(state)
+            target_f[0][action] = target
+            self.model.fit(state, target_f, epochs=1, verbose=0)
+        if self.epsilon > self.epsilon_min:
+            self.epsilon *= self.epsilon_decay
 
-    def optimize_trajectory(self):
-        # Ask user for episodes, total seconds, and step seconds
-        episodes = int(input("Enter the number of episodes for training: "))
-        total_seconds = int(input("Enter the total number of seconds to simulate: "))
-        step_seconds = int(input("Enter the time step in seconds: "))
-
-        total_rewards = []
-
+    def optimize_trajectory(self, episodes=5, batch_size=32):
+        memory = []  # Replay memory for storing experiences
         for episode in range(episodes):
             print(f"Starting episode {episode + 1}/{episodes}")
-            state = (0, 0, 0)  # Initial state (e.g., t, x_offset, y_offset)
+            state = np.array([[0, 0, 0]])  # Initial state (e.g., time, x_offset, y_offset)
             total_reward = 0
 
-            # Track cumulative adjustments
-            x_cumulative_adjust = 0
-            y_cumulative_adjust = 0
-
-            for t in range(0, total_seconds, step_seconds):
+            for t in range(0, 90, 30):  # Increased time step to 30 seconds for faster execution
                 print(f"Time step {t} seconds")
                 action = self.choose_action(state)
-                t_adjust, y_adjust = action
+                t_adjust, y_adjust = self.actions[action]
 
                 # Update cumulative adjustments
-                x_cumulative_adjust += t_adjust
-                y_cumulative_adjust += y_adjust
+                x_cumulative_adjust = t_adjust
+                y_cumulative_adjust = y_adjust
 
                 # Check for collision
                 collision, distance = self.check_collision(t)
                 print(f"Action taken: {action}, Collision: {collision}, Distance: {distance}")
-                reward = -1 if collision else 10  # Negative reward for collision, positive for staying safe
+                reward = -100 if collision else 10  # Negative reward for collision, positive for staying safe
                 total_reward += reward
 
-                # Update Q-table
-                next_state = (t + t_adjust, y_adjust, distance if collision else 0)
-                self.update_q_table(state, action, reward, next_state)
+                # Get next state
+                next_state = np.array([[t + t_adjust, y_adjust, distance if collision else 0]])
+                done = collision
+
+                # Store experience in memory
+                memory.append((state, action, reward, next_state, done))
                 state = next_state
 
-                # If collision, immediately adjust trajectory to avoid collision
+                # If collision, break and reset trajectory
                 if collision:
-                    # Adjust the trajectory dynamically to avoid collision
-                    alternative_action = random.choice(self.actions)
-                    x_cumulative_adjust += alternative_action[0]
-                    y_cumulative_adjust += alternative_action[1]
-                    print(f"Collision detected! Adjusting trajectory with action: {alternative_action}")
-                    reward = 5  # Provide a smaller positive reward for adjusting to avoid collision
-                    total_reward += reward
-                    # Continue with adjusted trajectory
+                    break
 
-            # Track total reward for the episode
-            total_rewards.append(total_reward)
+                # Train the model using replay
+                if len(memory) > batch_size:
+                    self.replay(memory, batch_size)
 
             # Decay exploration rate more aggressively
-            self.exploration_rate *= self.exploration_decay
-
-        # Calculate metrics
-        self.metrics['collision_rate'] = self.metrics['total_collisions'] / (episodes * (total_seconds / step_seconds))
-        self.metrics['average_reward'] = np.mean(total_rewards)
-        self.metrics['trajectory_deviation'] = [x_cumulative_adjust, y_cumulative_adjust]
-        self.metrics['average_distance'] = np.mean(self.metrics['average_distance']) if self.metrics['average_distance'] else None
+            self.epsilon = max(self.epsilon_min, self.epsilon * self.epsilon_decay)
 
         # Apply cumulative adjustments to the trajectory equation
-        # Update x and y components with the cumulative adjustments dynamically
-        self.trajectory_equation['x'] = f"{self.trajectory_equation['x']} + {x_cumulative_adjust} * t"
-        self.trajectory_equation['y'] = f"{self.trajectory_equation['y']} + {y_cumulative_adjust} * t"
+        self.trajectory_equation[
+            'x'] = f"x(t) = 45.964 + 51.6 * t * cos(0.7853981633974483) * cos(0.0) + {x_cumulative_adjust} * t"
+        self.trajectory_equation[
+            'y'] = f"y(t) = 63.305 + 51.6 * t * cos(0.7853981633974483) * sin(0.0) + {y_cumulative_adjust} * t"
 
-        # Return the optimized trajectory and metrics after training
-        return self.trajectory_equation, self.metrics
-
+        # Return the optimized trajectory after training
+        return self.trajectory_equation
 
 # if __name__ == "__main__":
-#     # Example updated inputs
-#     time_selected = "2024-12-01 10:00:00"
+#     # Example trajectory equation and timestamp
+#     timestamp = pd.Timestamp("2024-11-09 12:00:05")  # Slightly adjusted time to induce collision
 #     trajectory_equation = {
-#         'x': 'x(t) = 30.0 + 40.0 * t * cos(1.047) * cos(0.523)',
-#         'y': 'y(t) = 50.0 + 40.0 * t * cos(1.047) * sin(0.523)',
-#         'z': 'z(t) = 0.0 + 40.0 * t * sin(1.047)',
-#         'theta': 'theta(t) = 1.047 * (1 - exp(-0.05 * t))'
+#         'x': 'x(t) = 45.964 + 51.6 * t * cos(0.7853981633974483) * cos(0.0)',
+#         'y': 'y(t) = 63.305 + 51.6 * t * cos(0.7853981633974483) * sin(0.0)',
+#         'z': 'z(t) = 0.0 + 51.6 * t * sin(0.7853981633974483)',
+#         'theta': 'theta(t) = 0.7853981633974483 * (1 - exp(-0.1 * t))'
 #     }
-#     rocket_type = "Delta IV"
-#     launch_sites = ["Kennedy Space Center", "Baikonur Cosmodrome"]
-#     launch_coordinates = (45.9203, 63.3421)
-#     altitude = 1500
-#     altitude_range = [200, 1500]
-#     orbit_type = "MEO"
+#     rocket_type = "Falcon 9"
+#     launch_sites = ["Cape Canaveral", "Vandenberg"]
+#     launch_coordinates = (28.5623, -80.5774)
+#     altitude = 2000
+#     altitude_range = [200, 2000]
+#     orbit_type = "LEO"
+#     time_selected = "2024-11-09 12:00:00"
+#
+#     # Path to TLE dataset
 #     tle_data_path = '/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/datasets/tle_data.csv'
 #
 #     # Test the collision calculation and optimization
-#     collision_detector = CollisionDetectionEval(time_selected, trajectory_equation, rocket_type, launch_sites,
-#                                             launch_coordinates, altitude, altitude_range, orbit_type, tle_data_path)
-#     optimized_trajectory, metrics = collision_detector.optimize_trajectory()
+#     collision_detector = CollisionDetection(timestamp, trajectory_equation, rocket_type, launch_sites,
+#                                             launch_coordinates, altitude, altitude_range, orbit_type, time_selected,
+#                                             tle_data_path)
+#
+#     # Optimize the trajectory to avoid collisions
+#     optimized_trajectory = collision_detector.optimize_trajectory(episodes=1, batch_size=32)
 #     print(f"Optimized Trajectory: {optimized_trajectory}")
-#     print(f"Metrics: {metrics}")

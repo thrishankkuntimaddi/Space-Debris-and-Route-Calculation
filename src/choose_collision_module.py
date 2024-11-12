@@ -3,6 +3,7 @@ def choose_module():
     print("1. collision_detection.py")
     print("2. dynamic_collision_detection.py")
     print("3. collision_detection_evaluation_matrix.py")
+    print("4. collision_detection_deep_q_approach")
 
     choice = input("Enter the number of your choice: ")
 
@@ -17,6 +18,9 @@ def choose_module():
     elif choice == '3':
         module_name = "collision_detection_evaluation_matrix"
         name = "CollisionDetectionEval"
+    elif choice == '4':
+        module_name = "collision_detection_deep_q_approach."
+        name = "CollisionDetectionDeep"
     else:
         print("Invalid choice. Please select a valid option.")
 

@@ -4,7 +4,7 @@ MISSION REPORT
 MISSION OVERVIEW:
   Mission Name: Space Debris and Route Calculation Mission
   Orbit Details: To be determined
-  Launch Window: 2024-11-10 22:53:23
+  Launch Window: 2024-11-12 13:25:12
 
 ROCKET DETAILS:
   Rocket Type: Delta IV
@@ -13,18 +13,18 @@ ROCKET DETAILS:
   Launch Site Coordinates: (28.3922, -80.6077)
 
 INITIAL TRAJECTORY INFO:
-  Trajectory Equation: {'x': 'x(t) = 28.3922 + 2800.0 * t * cos(0.8726646259971648) * cos(0.9773843811168246) + -0.02 * t', 'y': 'y(t) = -80.6077 + 2800.0 * t * cos(0.8726646259971648) * sin(0.9773843811168246) + -3.469446951953614e-18 * t', 'z': 'z(t) = 0.0 + 2800.0 * t * sin(0.8726646259971648)', 'theta': 'theta(t) = 0.8726646259971648 * (1 - exp(-0.1 * t))'}
+  Trajectory Equation: {'x': 'x(t) = 28.3922 + 2800.0 * t * cos(0.8726646259971648) * cos(0.9773843811168246) + 0 * t', 'y': 'y(t) = -80.6077 + 2800.0 * t * cos(0.8726646259971648) * sin(0.9773843811168246) + 0.02 * t', 'z': 'z(t) = 0.0 + 2800.0 * t * sin(0.8726646259971648)', 'theta': 'theta(t) = 0.8726646259971648 * (1 - exp(-0.1 * t))'}
   Parameters: {'selected_altitude': '15000 km'}
   Visualization Notes: Trajectory visualization completed
 
 OPTIMIZED TRAJECTORY INFO:
-  Optimized Trajectory Equation: {'x': 'x(t) = 28.3922 + 2800.0 * t * cos(0.8726646259971648) * cos(0.9773843811168246) + -0.02 * t', 'y': 'y(t) = -80.6077 + 2800.0 * t * cos(0.8726646259971648) * sin(0.9773843811168246) + -3.469446951953614e-18 * t', 'z': 'z(t) = 0.0 + 2800.0 * t * sin(0.8726646259971648)', 'theta': 'theta(t) = 0.8726646259971648 * (1 - exp(-0.1 * t))'}
+  Optimized Trajectory Equation: {'x': 'x(t) = 28.3922 + 2800.0 * t * cos(0.8726646259971648) * cos(0.9773843811168246) + 0 * t', 'y': 'y(t) = -80.6077 + 2800.0 * t * cos(0.8726646259971648) * sin(0.9773843811168246) + 0.02 * t', 'z': 'z(t) = 0.0 + 2800.0 * t * sin(0.8726646259971648)', 'theta': 'theta(t) = 0.8726646259971648 * (1 - exp(-0.1 * t))'}
   Visualization Notes: Post-optimization trajectory visualization completed
 
 COLLISION DETECTION SUMMARY:
-  Detection Methods: ['CollisionDetectionDynamics']
-  Detected Events: Optimized trajectory calculated
-  Dynamic Analysis Notes: Dynamic analysis used for optimization
+  Detection Methods: ['CollisionDetectionEval']
+  Detected Events: Optimized trajectory calculated with metrics: {'total_collisions': 0, 'collision_rate': 0.0, 'average_reward': 20.0, 'trajectory_deviation': [0, 0.02], 'average_distance': None}
+  Dynamic Analysis Notes: Evaluation matrix used for optimization
 
 ORBITAL ANALYSIS:
   Selected Orbit: Altitude: 15000 km, Type: Medium Earth Orbit (MEO)

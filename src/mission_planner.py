@@ -18,6 +18,7 @@ from choose_collision_module import choose_module
 from collision_detection_evaluation_matrix import CollisionDetectionEval
 from dynamics_collision_detection import CollisionDetectionDynamics
 from mission_report import MissionReport
+from collision_detection_deep_q_approach import CollisionDetectionDeep
 
 # Structure integration
 def main():
@@ -129,6 +130,17 @@ def main():
             dynamic_analysis_notes="Evaluation matrix used for optimization"
         )
     elif model[1] == "CollisionDetectionDynamics":
+        collision_detector = CollisionDetectionDynamics(time_selected, trajectory_equations, rocket_type, launch_sites,
+                                                        launch_coordinates, altitude, altitude_range, orbit_type,
+                                                        tle_data_path)
+        optimized_trajectory = collision_detector.optimize_trajectory()
+        print(f"Optimized Trajectory: {optimized_trajectory}")
+        mission_report.add_collision_detection_summary(
+            detection_methods=[model[1]],
+            detected_events="Optimized trajectory calculated",
+            dynamic_analysis_notes="Dynamic analysis used for optimization"
+        )
+    elif model[1] == "CollisionDetectionDeep":
         collision_detector = CollisionDetectionDynamics(time_selected, trajectory_equations, rocket_type, launch_sites,
                                                         launch_coordinates, altitude, altitude_range, orbit_type,
                                                         tle_data_path)

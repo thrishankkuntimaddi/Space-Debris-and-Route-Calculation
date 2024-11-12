@@ -4,13 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7a1d443-7c9f-4e0f-a01b-8f9ab70998bc" name="Changes" comment="upto marks">
-      <change afterPath="$PROJECT_DIR$/choice_of_tle_by_user/Simulated_TLE_Collision_Dataset.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/dummy_mission_planne.py" afterDir="false" />
+    <list default="true" id="f7a1d443-7c9f-4e0f-a01b-8f9ab70998bc" name="Changes" comment="Set">
+      <change afterPath="$PROJECT_DIR$/src/collision_detection_deep_q_approach.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Space-Debris-and-Route-Calculation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Space-Debris-and-Route-Calculation.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datasets/rocket_parameters.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/rocket_parameters.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/choose_collision_module.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/choose_collision_module.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/collision_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/collision_detection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/collision_detection_evaluation_matrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/collision_detection_evaluation_matrix.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dynamics_collision_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dynamics_collision_detection.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mission_planner.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mission_planner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mission_report.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mission_report.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mission_report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/mission_report.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +82,7 @@
     "Python.collision_avoidance.executor": "Run",
     "Python.collision_check.executor": "Run",
     "Python.collision_detection.executor": "Run",
+    "Python.collision_detection_deep_q_approach.executor": "Run",
     "Python.collision_detection_evaluation_matrix.executor": "Run",
     "Python.collision_test.executor": "Run",
     "Python.collision_test_on_TLE.executor": "Run",
@@ -120,7 +125,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/choice_of_tle_by_user",
+    "last_opened_file_path": "/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
@@ -158,7 +163,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="collision_detection" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="collision_detection_deep_q_approach" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Space-Debris-and-Route-Calculation" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -171,7 +176,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/collision_detection.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/collision_detection_deep_q_approach.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -249,10 +254,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.mission_planner" />
+        <item itemvalue="Python.choose_collision_module" />
+        <item itemvalue="Python.collision_detection_deep_q_approach" />
         <item itemvalue="Python.dummy_mission_planne" />
         <item itemvalue="Python.mission_report" />
-        <item itemvalue="Python.choose_collision_module" />
-        <item itemvalue="Python.collision_detection" />
       </list>
     </recent_temporary>
   </component>
@@ -488,7 +493,23 @@
       <option name="project" value="LOCAL" />
       <updated>1731253114114</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="upto marks">
+      <option name="closed" value="true" />
+      <created>1731259739793</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1731259739793</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Set">
+      <option name="closed" value="true" />
+      <created>1731259787430</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1731259787431</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -511,6 +532,7 @@
     <MESSAGE value="Attempt" />
     <MESSAGE value="upto mark" />
     <MESSAGE value="upto marks" />
-    <option name="LAST_COMMIT_MESSAGE" value="upto marks" />
+    <MESSAGE value="Set" />
+    <option name="LAST_COMMIT_MESSAGE" value="Set" />
   </component>
 </project>
