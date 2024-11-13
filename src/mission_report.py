@@ -1,11 +1,3 @@
-purpose = '''
-inputs: getting info from all modules  
-outputs: detailed report 
-'''
-
-# mission_report.py
-# mission_report.py
-
 class MissionReport:
     def __init__(self):
         self.report_data = {
@@ -17,7 +9,8 @@ class MissionReport:
             "orbital_analysis": {},
             "mission_planning": {},
             "evaluation_summary": {},
-            "conclusion": {}
+            "conclusion": {},
+            "evaluation_metrics": {}  # Added evaluation metrics section
         }
 
     def add_mission_overview(self, mission_name, orbit_details, launch_window):
@@ -82,6 +75,16 @@ class MissionReport:
             "recommendations": recommendations
         }
 
+    def add_evaluation_metrics(self, average_reward, collision_avoidance_rate, accuracy, f1, precision, recall):
+        self.report_data["evaluation_metrics"] = {
+            "average_reward_per_episode": average_reward,
+            "average_collision_avoidance_rate": f"{collision_avoidance_rate * 100:.2f}%",
+            "accuracy": f"{accuracy * 100:.2f}%",
+            "f1_score": f"{f1:.2f}",
+            "precision": f"{precision:.2f}",
+            "recall": f"{recall:.2f}"
+        }
+
     def generate_report(self):
         # This method prints or writes the full mission report to a file
         report_str = "\nMISSION REPORT\n\n"
@@ -96,6 +99,7 @@ class MissionReport:
     def save_report_to_file(self, filename="mission_report.txt"):
         with open(filename, "w") as file:
             file.write(self.generate_report())
+
 
 # # Example Usage
 # if __name__ == "__main__":

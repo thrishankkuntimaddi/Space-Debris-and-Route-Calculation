@@ -2,9 +2,6 @@ purpose = '''
 -> Complete control 
 '''
 
-tle_data_path = '/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/datasets/tle_data.csv'
-rocket_parameters_path = '/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/datasets/rocket_parameters.csv'
-
 # imports
 import pandas as pd
 from timestamp import TimestampSelector
@@ -13,12 +10,12 @@ from rocket_orbital_velocity_calculation import VelocityCalculate
 from rocket_selection import RocketSelector
 from initial_trajectory import TrajectoryCalculator
 from initial_trajectory_visualization import TrajectoryVisualizer
-from collision_detection import CollisionDetection
-from choose_collision_module import choose_module
-from collision_detection_evaluation_matrix import CollisionDetectionEval
-from dynamics_collision_detection import CollisionDetectionDynamics
 from mission_report import MissionReport
-from collision_detection_deep_q_approach import CollisionDetectionDeep
+from double_deep_dynamic_collision_detection import DeepDynamicCollisionDetection
+
+tle_data_path = '/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/data/tle_data.csv'
+rocket_parameters_path = '/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/data/rocket_parameters.csv'
+tle_data = pd.read_csv(tle_data_path, low_memory=False)
 
 # Structure integration
 def main():
@@ -113,54 +110,45 @@ def main():
         else:
             return
 
-    model = choose_module()
-    print(model)
+    # DeepDynamicCollisionDetection
 
-    # Step 5: Choosing Module, collision_detection.py
-    # Test the collision calculation and optimization
-    if model[1] == "CollisionDetectionEval":
-        collision_detector = CollisionDetectionEval(time_selected, trajectory_equations, rocket_type, launch_sites,
-                                                launch_coordinates, altitude, altitude_range, orbit_type, tle_data_path)
-        optimized_trajectory, metrics = collision_detector.optimize_trajectory()
-        print(f"Optimized Trajectory: {optimized_trajectory}")
-        print(f"Metrics: {metrics}")
-        mission_report.add_collision_detection_summary(
-            detection_methods=[model[1]],
-            detected_events=f"Optimized trajectory calculated with metrics: {metrics}",
-            dynamic_analysis_notes="Evaluation matrix used for optimization"
-        )
-    elif model[1] == "CollisionDetectionDynamics":
-        collision_detector = CollisionDetectionDynamics(time_selected, trajectory_equations, rocket_type, launch_sites,
-                                                        launch_coordinates, altitude, altitude_range, orbit_type,
-                                                        tle_data_path)
-        optimized_trajectory = collision_detector.optimize_trajectory()
-        print(f"Optimized Trajectory: {optimized_trajectory}")
-        mission_report.add_collision_detection_summary(
-            detection_methods=[model[1]],
-            detected_events="Optimized trajectory calculated",
-            dynamic_analysis_notes="Dynamic analysis used for optimization"
-        )
-    elif model[1] == "CollisionDetectionDeep":
-        collision_detector = CollisionDetectionDynamics(time_selected, trajectory_equations, rocket_type, launch_sites,
-                                                        launch_coordinates, altitude, altitude_range, orbit_type,
-                                                        tle_data_path)
-        optimized_trajectory = collision_detector.optimize_trajectory()
-        print(f"Optimized Trajectory: {optimized_trajectory}")
-        mission_report.add_collision_detection_summary(
-            detection_methods=[model[1]],
-            detected_events="Optimized trajectory calculated",
-            dynamic_analysis_notes="Dynamic analysis used for optimization"
-        )
+    model = DeepDynamicCollisionDetection(
+        trajectory_equation=trajectory_equations,
+        rocket_type=rocket_type,
+        launch_sites=launch_sites,
+        launch_coordinates=launch_coordinates,
+        altitude=altitude,
+        altitude_range=altitude_range,
+        orbit_type=orbit_type,
+        time_selected=time_selected,
+        tle_data=tle_data
+    )
+
+    # Ask the user whether to train the model or use the existing model for predictions
+    user_choice = input(
+        "Do you want to train the model or use the existing model for predictions? (train/use): ").strip().lower()
+
+    if user_choice == 'train':
+        num_episodes = int(input("Enter total number of episodes: "))
+        max_steps = int(input("Enter max steps per episode: "))
+        evaluation_metrics, collision_data, optimized_trajectory = model.train(num_episodes=num_episodes,
+                                                                               max_steps=max_steps)
+        print(f"\nOptimized Trajectory: {optimized_trajectory}")
+        print(f"\nEvaluation Metrics: {evaluation_metrics}")
+        if collision_data:
+            print(f"\nCollisions Detected: {collision_data}")
+    elif user_choice == 'use':
+        for t in range(5):  # Example of using the model for prediction over time steps
+            action = model.predict(t)
+            print(f"Predicted action at time {t}: {action}")
+
+        # Also return the optimized trajectory and evaluation metrics from the existing model
+        optimized_trajectory = model.optimize_trajectory()
+        evaluation_metrics = model.evaluate_model()
+        print(f"\nOptimized Trajectory: {optimized_trajectory}")
+        print(f"\nEvaluation Metrics: {evaluation_metrics}")
     else:
-        collision_detector = CollisionDetection(time_selected, trajectory_equations, rocket_type, launch_sites,
-                                                launch_coordinates, altitude, altitude_range, orbit_type, tle_data_path)
-        optimized_trajectory = collision_detector.optimize_trajectory()
-        print(f"Optimized Trajectory: {optimized_trajectory}")
-        mission_report.add_collision_detection_summary(
-            detection_methods=[model[1]],
-            detected_events="Optimized trajectory calculated",
-            dynamic_analysis_notes="Static analysis used for optimization"
-        )
+        print("Invalid choice. Please enter 'train' or 'use'.")
 
     # visualize_trajectory_equations.py
     if trajectory_equations:

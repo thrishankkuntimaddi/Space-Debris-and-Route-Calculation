@@ -8,7 +8,7 @@ outputs: Type of Rocket, Launch Site, Launch Coordinates
 '''
 
 class RocketSelector:
-    def __init__(self, csv_path="/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/datasets/rocket_parameters.csv"):
+    def __init__(self, csv_path="/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/data/rocket_parameters.csv"):
         # Load the rocket dataset from CSV
         self.rocket_df = pd.read_csv(csv_path)
         # Ensure Max_Altitude_km column is numeric
