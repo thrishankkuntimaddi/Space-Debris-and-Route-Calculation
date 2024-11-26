@@ -1,4 +1,5 @@
 # TLE-Based Space Debris Detection and Trajectory Optimization Using Double Deep Q-Learning and Dynamic Collision Avoidance 🚀
+# Optimized Space Debris Avoidance and Trajectory Planning System
 
 This repository contains the implementation of **TLE-Based Space Debris Detection and Trajectory Optimization** using advanced techniques like **Double Deep Q-Learning** and **Dynamic Collision Avoidance**. The project aims to provide an efficient solution for space debris management and safe route planning for satellites and spacecraft, utilizing data from **Two-Line Elements (TLE)**.
 
