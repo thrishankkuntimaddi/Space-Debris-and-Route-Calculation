@@ -4,25 +4,25 @@ MISSION REPORT
 MISSION OVERVIEW:
   Mission Name: Space Debris and Route Calculation Mission
   Orbit Details: To be determined
-  Launch Window: 2024-11-13 18:07:30
+  Launch Window: 2025-02-26 23:56:05
 
 ROCKET DETAILS:
-  Rocket Type: Delta IV
-  Fuel Consumption: 15.0 kg/km
-  Compatible Launch Sites: Cape Canaveral, Florida, USA
-  Launch Site Coordinates: (28.3922, -80.6077)
+  Rocket Type: Proton-M
+  Fuel Consumption: 18.0 kg/km
+  Compatible Launch Sites: Baikonur Cosmodrome, Kazakhstan
+  Launch Site Coordinates: (45.964, 63.305)
 
 INITIAL TRAJECTORY INFO:
-  Trajectory Equation: {'x': 'x(t) = 28.3922 + 2800.0 * t * cos(0.8726646259971648) * cos(0.9773843811168246) + 0', 'y': 'y(t) = -80.6077 + 2800.0 * t * cos(0.8726646259971648) * sin(0.9773843811168246) + 0', 'z': 'z(t) = 0.0 + 2800.0 * t * sin(0.8726646259971648)', 'theta': 'theta(t) = 0.8726646259971648 * (1 - exp(-0.1 * t))'}
-  Parameters: {'selected_altitude': '15000 km'}
+  Trajectory Equation: {'x': 'x(t) = 45.964 + 3100.0 * t * cos(0.6108652381980153) * cos(1.13271868454432) + 20', 'y': 'y(t) = 63.305 + 3100.0 * t * cos(0.6108652381980153) * sin(1.13271868454432) + 40', 'z': 'z(t) = 0.0 + 3100.0 * t * sin(0.6108652381980153)', 'theta': 'theta(t) = 0.6108652381980153 * (1 - exp(-0.1 * t))'}
+  Parameters: {'selected_altitude': '35786 km'}
   Visualization Notes: Trajectory visualization completed
 
 OPTIMIZED TRAJECTORY INFO:
-  Optimized Trajectory Equation: {'x': 'x(t) = 28.3922 + 2800.0 * t * cos(0.8726646259971648) * cos(0.9773843811168246) + 0', 'y': 'y(t) = -80.6077 + 2800.0 * t * cos(0.8726646259971648) * sin(0.9773843811168246) + 0', 'z': 'z(t) = 0.0 + 2800.0 * t * sin(0.8726646259971648)', 'theta': 'theta(t) = 0.8726646259971648 * (1 - exp(-0.1 * t))'}
+  Optimized Trajectory Equation: {'x': 'x(t) = 45.964 + 3100.0 * t * cos(0.6108652381980153) * cos(1.13271868454432) + 20', 'y': 'y(t) = 63.305 + 3100.0 * t * cos(0.6108652381980153) * sin(1.13271868454432) + 40', 'z': 'z(t) = 0.0 + 3100.0 * t * sin(0.6108652381980153)', 'theta': 'theta(t) = 0.6108652381980153 * (1 - exp(-0.1 * t))'}
   Visualization Notes: Post-optimization trajectory visualization completed
 
 ORBITAL ANALYSIS:
-  Selected Orbit: Altitude: 15000 km, Type: Medium Earth Orbit (MEO)
+  Selected Orbit: Altitude: 35786 km, Type: Geostationary Orbit (GEO)
   Feasibility Analysis: Feasible with selected rocket
-  Orbital Velocity: 4318.67 m/s
+  Orbital Velocity: 3074.88 m/s
 

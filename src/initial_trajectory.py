@@ -5,7 +5,7 @@ import pandas as pd
 
 class TrajectoryCalculator:
     def __init__(self,
-                 dataset_path="/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/data/rocket_parameters.csv"):
+                 dataset_path="/Users/thrishankkuntimaddi/Documents/Final_Year_Project/Space-Debris-and-Route-Calculation/data/rocket_parameters.csv"):
         """
         Initializes the TrajectoryCalculator with a dataset.
 

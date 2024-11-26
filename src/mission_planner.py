@@ -13,8 +13,8 @@ from initial_trajectory_visualization import TrajectoryVisualizer
 from mission_report import MissionReport
 from double_deep_dynamic_collision_detection import DeepDynamicCollisionDetection
 
-tle_data_path = '/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/data/tle_data.csv'
-rocket_parameters_path = '/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/data/rocket_parameters.csv'
+tle_data_path = '/Users/thrishankkuntimaddi/Documents/Final_Year_Project/Space-Debris-and-Route-Calculation/data/tle_data.csv'
+rocket_parameters_path = '/Users/thrishankkuntimaddi/Documents/Final_Year_Project/Space-Debris-and-Route-Calculation/data/rocket_parameters.csv'
 tle_data = pd.read_csv(tle_data_path, low_memory=False)
 
 # Structure integration

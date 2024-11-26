@@ -39,7 +39,7 @@ class DeepDynamicCollisionDetection:
         self.true_labels = []
         self.predicted_labels = []
         self.collision_data = []  # Track collision events
-        self.checkpoint_path = "/Users/thrishank/Documents/Projects/Project_Space_Debris_&_Route_Calculation/Space-Debris-and-Route-Calculation/checkpoints/deep_dynamic_collision_detection.weights.h5"  # Path to save checkpoints
+        self.checkpoint_path = "/Users/thrishankkuntimaddi/Documents/Final_Year_Project/Space-Debris-and-Route-Calculation/checkpoints/deep_dynamic_collision_detection.weights.h5"  # Path to save checkpoints
 
         # Load model weights if available
         if os.path.exists(self.checkpoint_path):
